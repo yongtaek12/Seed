@@ -14,12 +14,14 @@ import first.sample.dao.SampleDAO;
 @Service("sampleService")
 public class SampleServiceImpl implements SampleService {
 	Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource(name = "sampleDAO")
 	private SampleDAO sampleDAO;
 
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardList(map);
+		
 	}
 
 	@Override
@@ -32,6 +34,16 @@ public class SampleServiceImpl implements SampleService {
 		sampleDAO.updateHitCnt(map);
 		Map<String, Object> resultMap = sampleDAO.selectBoardDetail(map);
 		return resultMap;
+	}
+
+	@Override
+	public void updateBoard(Map<String, Object> map) throws Exception{
+		sampleDAO.updateBoard(map);
+	}
+
+	@Override
+	public void deleteBoard(Map<String, Object> map) throws Exception {
+		sampleDAO.deleteBoard(map);
 	}
 
 }

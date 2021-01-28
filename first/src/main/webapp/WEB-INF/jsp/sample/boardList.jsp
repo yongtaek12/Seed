@@ -1,18 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<%@ include file="/WEB-INF/include/include-header.jspf"%>
+<%@ include file="/WEB-INF/include/include-header.jspf" %>
 </head>
 <body>
 	<h2>게시판 목록</h2>
 	<table class="board_list">
 		<colgroup>
-			<col width="10%" />
-			<col width="*" />
-			<col width="15%" />
-			<col width="20%" />
+			<col width="10%"/>
+			<col width="*"/>
+			<col width="15%"/>
+			<col width="20%"/>
 		</colgroup>
 		<thead>
 			<tr>
@@ -28,8 +27,10 @@
 					<c:forEach items="${list }" var="row">
 						<tr>
 							<td>${row.IDX }</td>
-							<td class="title"><a href="#this" name="title">${row.TITLE }</a>
-								<input type="hidden" id="IDX" value="${row.IDX }"></td>
+							<td class="title">
+								<a href="#this" name="title">${row.TITLE }</a>
+								<input type="hidden" id="IDX" value="${row.IDX }">
+							</td>
 							<td>${row.HIT_CNT }</td>
 							<td>${row.CREA_DTM }</td>
 						</tr>
@@ -43,10 +44,36 @@
 			</c:choose>
 		</tbody>
 	</table>
-	<br />
+	<br/>
 	<a href="#this" class="btn" id="write">글쓰기</a>
-	<%@ include file="/WEB-INF/include/include-body.jspf"%>
-	<script type="text/javascript"> $(document).ready(function(){ $("#write").on("click", function(e){ //글쓰기 버튼 e.preventDefault(); fn_openBoardWrite(); }); $("a[name='title']").on("click", function(e){ //제목 e.preventDefault(); fn_openBoardDetail($(this)); }); }); function fn_openBoardWrite(){ var comSubmit = new ComSubmit(); comSubmit.setUrl("<c:url value='/sample/openBoardWrite.do' />"); comSubmit.submit(); } function fn_openBoardDetail(obj){ var comSubmit = new ComSubmit(); comSubmit.setUrl("<c:url value='/sample/openBoardDetail.do' />"); comSubmit.addParam("IDX", obj.parent().find("#IDX").val()); comSubmit.submit(); } </script>
+	
+	<%@ include file="/WEB-INF/include/include-body.jspf" %>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#write").on("click", function(e){ //글쓰기 버튼
+				e.preventDefault();
+				fn_openBoardWrite();
+			});	
+			
+			$("a[name='title']").on("click", function(e){ //제목 
+				e.preventDefault();
+				fn_openBoardDetail($(this));
+			});
+		});
+		
+		
+		function fn_openBoardWrite(){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/sample/openBoardWrite.do' />");
+			comSubmit.submit();
+		}
+		
+		function fn_openBoardDetail(obj){
+			var comSubmit = new ComSubmit();
+			comSubmit.setUrl("<c:url value='/sample/openBoardDetail.do' />");
+			comSubmit.addParam("IDX", obj.parent().find("#IDX").val());
+			comSubmit.submit();
+		}
+	</script>	
 </body>
 </html>
-
