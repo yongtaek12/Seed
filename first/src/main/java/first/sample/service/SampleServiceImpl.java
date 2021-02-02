@@ -4,29 +4,36 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import first.common.util.FileUtils;
 import first.sample.dao.SampleDAO;
 
 @Service("sampleService")
 public class SampleServiceImpl implements SampleService {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	@Resource(name = "fileUtils")
+	private FileUtils fileUtils;
 	@Resource(name = "sampleDAO")
 	private SampleDAO sampleDAO;
 
 	@Override
 	public List<Map<String, Object>> selectBoardList(Map<String, Object> map) throws Exception {
 		return sampleDAO.selectBoardList(map);
-		
 	}
 
 	@Override
-	public void insertBoard(Map<String, Object> map) throws Exception {
+	public void insertBoard(Map<String, Object> map, HttpServletRequest request) throws Exception {
 		sampleDAO.insertBoard(map);
+		List<Map<String, Object>> list = fileUtils.parseInsertFileInfo(map, request);
+		for (int i = 0, size = list.size(); i < size; i++) {
+			sampleDAO.insertFile(list.get(i));
+		}
 	}
 
 	@Override
@@ -37,7 +44,7 @@ public class SampleServiceImpl implements SampleService {
 	}
 
 	@Override
-	public void updateBoard(Map<String, Object> map) throws Exception{
+	public void updateBoard(Map<String, Object> map) throws Exception {
 		sampleDAO.updateBoard(map);
 	}
 
@@ -45,6 +52,5 @@ public class SampleServiceImpl implements SampleService {
 	public void deleteBoard(Map<String, Object> map) throws Exception {
 		sampleDAO.deleteBoard(map);
 	}
-
 }
 
