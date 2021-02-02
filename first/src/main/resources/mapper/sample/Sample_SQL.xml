@@ -73,5 +73,9 @@
 
 	<insert id="insertFile" parameterType="hashmap"> <![CDATA[ INSERT INTO TB_FILE ( IDX, BOARD_IDX, ORIGINAL_FILE_NAME, STORED_FILE_NAME, FILE_SIZE, CREA_ID ) VALUES ( SEQ_TB_FILE_IDX.NEXTVAL, #{BOARD_IDX}, #{ORIGINAL_FILE_NAME}, #{STORED_FILE_NAME}, #{FILE_SIZE}, 'Admin' ) ]]>
 	</insert>
+	<!-- 선택된 게시글 번호에 해당하는 첨부파일의 목록을 조회하는 쿼리 -->
+	<select id="selectFileList" parameterType="hashmap" resultType="hashmap"> 
+		<![CDATA[ SELECT IDX, ORIGINAL_FILE_NAME, ROUND(FILE_SIZE/1024,1) AS FILE_SIZE FROM TB_FILE WHERE BOARD_IDX = #{IDX} AND DEL_GB = 'N' ]]>
+	</select>
 
 </mapper>

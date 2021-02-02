@@ -49,13 +49,14 @@ public class SampleController {
 	}
 
 	
-	@RequestMapping(value="/sample/openBoardDetail.do")
-	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception{
+	@RequestMapping(value = "/sample/openBoardDetail.do")
+	public ModelAndView openBoardDetail(CommandMap commandMap) throws Exception {
 		ModelAndView mv = new ModelAndView("/sample/boardDetail");
-		
-		Map<String,Object> map = sampleService.selectBoardDetail(commandMap.getMap());
-		mv.addObject("map", map);
-		
+		Map<String, Object> map = sampleService.selectBoardDetail(commandMap.getMap());
+		//게시글 상세정보
+		mv.addObject("map", map.get("map"));
+		//첨부파일 목록
+		mv.addObject("list", map.get("list"));
 		return mv;
 	}
 	
