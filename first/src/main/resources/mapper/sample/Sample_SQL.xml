@@ -4,8 +4,10 @@
 <mapper namespace="sample">
 	
 	<select id="selectBoardList" parameterType="hashmap" resultType="hashmap">
+		<include refid="common.pagingPre"/> 
 		<![CDATA[
 			SELECT
+				ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
 			    IDX,
 			    TITLE,
 			    HIT_CNT,
@@ -13,9 +15,9 @@
 			FROM
 			    TB_BOARD
 			WHERE
-				DEL_GB = 'N'    
-			ORDER BY IDX DESC
+				DEL_GB = 'N'
 		]]>
+		<include refid="common.pagingPost"/> 
 	</select>
 	
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
@@ -23,7 +25,6 @@
 			SELECT SEQ_TB_BOARD_IDX.NEXTVAL FROM DUAL
 		</selectKey>
 		<![CDATA[
-			
 			INSERT INTO TB_BOARD
 			(
 				IDX,
@@ -37,8 +38,8 @@
 			VALUES
 			(
 				#{IDX}, 
-			    #{TITLE}, 
-			    #{CONTENTS}, 
+				#{TITLE},
+				#{CONTENTS},
 			    0, 
 			    'N', 
 			    SYSDATE, 
@@ -56,6 +57,7 @@
 				IDX = #{IDX}	
 		]]>
 	</update>
+	
 	
 	<select id="selectBoardDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
